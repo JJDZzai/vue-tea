@@ -1,0 +1,35 @@
+* {
+    padding: 0;
+    margin: 0;
+    /* 组织表单触发默认行为 */
+    touch-action: none;
+}
+
+html,
+body,
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+section {
+    flex: 1;
+    overflow: hidden;
+}
+
+ul {
+    list-style: none;
+}
+
+input {
+    background: none;
+    outline: 0;
+    border: 0;
+}
+
+input:focus {
+    border: 0;
+}
