@@ -13,117 +13,62 @@
     </header>
     <section ref="wrapper">
       <div>
-        <div
-          class="cart-goods-title"
-          v-if="list.length"
-        >
-          <van-checkbox
-            :value="isCheckedAll"
-            checked-color="#3b8c2f"
-            icon-size=".48rem"
-            @click="checkAllFn"
-          ></van-checkbox>
+        <div class="cart-goods-title" v-if="list.length">
+          <van-checkbox :value="isCheckedAll" checked-color="#3b8c2f" icon-size=".48rem"
+            @click="checkAllFn"></van-checkbox>
           <span>商品</span>
         </div>
         <ul v-if="list.length">
-          <li
-            v-for="(lis,index) in list"
-            :key="index"
-            @click="goDetail(lis.id)"
-          >
+          <li v-for="(lis, index) in list" :key="index">
             <div>
-              <van-checkbox
-                v-model="lis.checked"
-                checked-color="#3b8c2f"
-                icon-size=".48rem"
-                @click="SINGLECHECK(index)"
-              ></van-checkbox>
+              <van-checkbox v-model="lis.checked" checked-color="#3b8c2f" icon-size=".48rem"
+                @click="SINGLECHECK(index)"></van-checkbox>
             </div>
             <h2>
-              <img
-                :src="lis.goods_imgUrl"
-                width="74"
-                height="74"
-              >
+              <img :src="lis.goods_imgUrl" width="74" height="74" @click="goDetail(lis.id)">
             </h2>
             <div class="cart-goods-desc">
               <div class="cart-goods-desc_title">
-                <span>{{lis.goods_name}}</span>
-                <i
-                  class="iconfont icon-qingkongshanchu"
-                  @click="deleteGoods(lis.id)"
-                ></i>
+                <span>{{ lis.goods_name }}</span>
+                <i class="iconfont icon-qingkongshanchu" @click="deleteGoods(lis.id)"></i>
               </div>
-              <div class="cart-goods-desc_price">￥{{lis.goods_price}}</div>
-              <van-stepper
-                v-model="lis.goods_num"
-                integer
-                @change="changeNum($event,lis)"
-              />
+              <div class="cart-goods-desc_price">￥{{ lis.goods_price }}</div>
+              <van-stepper v-model="lis.goods_num" integer @change="changeNum($event, lis)" />
             </div>
           </li>
         </ul>
-        <div
-          class="cart-empty"
-          v-if="!list.length"
-        >
-          <img
-            src="@/assets/images/logo-f.png"
-            width="100"
-          >
+        <div class="cart-empty" v-if="!list.length">
+          <img src="@/assets/images/logo-f.png" width="100">
           <h3>购物车还是空的，快来挑选好货吧</h3>
           <div @click="$router.push('/home')">去逛逛</div>
         </div>
         <div v-if="!list.length">
-          <div
-            v-for="(good,index) in goodList"
-            :key="index"
-            class="cart-like-mt"
-          >
-            <Like
-              v-if="good.type == 'likeList'"
-              :likeList="good.data"
-            />
+          <div v-for="(good, index) in goodList" :key="index" class="cart-like-mt">
+            <Like v-if="good.type == 'likeList'" :likeList="good.data" />
           </div>
         </div>
       </div>
     </section>
     <footer>
       <div class="cart-checked">
-        <van-checkbox
-          :value="isCheckedAll"
-          checked-color="#3b8c2f"
-          icon-size=".48rem"
-          v-show="!isEdit"
-          @click="checkAllFn"
-        ></van-checkbox>
+        <van-checkbox :value="isCheckedAll" checked-color="#3b8c2f" icon-size=".48rem" v-show="!isEdit"
+          @click="checkAllFn"></van-checkbox>
       </div>
-      <div
-        class="total-goods"
-        v-show="!isEdit"
-      >
+      <div class="total-goods" v-show="!isEdit">
         <div>
-          共有 <span class="total-goods-subtotal">{{total.num}}</span> 件商品
+          共有 <span class="total-goods-subtotal">{{ total.num }}</span> 件商品
         </div>
         <div>
           <span>总计：</span>
-          <span class="total-goods-subtotal">￥{{total.price.toFixed(2)}} </span>
+          <span class="total-goods-subtotal">￥{{ total.price.toFixed(2) }} </span>
           <span>+ </span>
           <span class="total-goods-subtotal">0茶币</span>
         </div>
       </div>
-      <div
-        class="cart-settlement"
-        v-if="isEdit"
-        :style="{backgroundColor:(selectList.length > 0 ? '#3b8c2f' : '#ccc')}"
-        @click="deleteGoods"
-      >删除</div>
-      <div
-        class="cart-settlement"
-        v-else
-        :style="{backgroundColor:(selectList.length > 0 ? '#3b8c2f' : '#ccc')}"
-        @click="goOrder"
-      >去结算</div>
+      <div class="cart-settlement" v-if="isEdit"
+        :style="{ backgroundColor: (selectList.length > 0 ? '#3b8c2f' : '#ccc') }" @click="deleteGoods">删除</div>
+      <div class="cart-settlement" v-else :style="{ backgroundColor: (selectList.length > 0 ? '#3b8c2f' : '#ccc') }"
+        @click="goOrder">去结算</div>
     </footer>
   </div>
 </template>
@@ -145,21 +90,21 @@ import { Toast } from "vant";
 export default {
   name: "Cart",
   components: { Like },
-  data() {
+  data () {
     return {
       goodList: [],
       checked: true,
       isEdit: false,
     };
   },
-  created() {
+  created () {
     this.getData();
     this.getList();
   },
   computed: {
     ...mapState("cart", ["list", "selectList"]),
     ...mapGetters("cart", ["isCheckedAll", "total"]),
-    goodsList() {
+    goodsList () {
       return this.selectList.map((id) => {
         return this.list.find((v) => v.id == id);
       });
@@ -172,13 +117,13 @@ export default {
       SINGLECHECK: "cart/SINGLECHECK",
       INITORDER: "order/INITORDER",
     }),
-    goDetail(id) {
+    goDetail (id) {
       this.$router.push({
         name: "Detail",
         query: { id },
       });
     },
-    getData() {
+    getData () {
       http
         .$axios({
           url: "/api/selectedCart",
@@ -195,7 +140,7 @@ export default {
           this.CARTLIST(res.data);
         });
     },
-    async getList() {
+    async getList () {
       let res = await http.$axios({
         url: "/api/index_list/0/data/1",
       });
@@ -210,17 +155,17 @@ export default {
         });
       });
     },
-    handleBack() {
+    handleBack () {
       this.$router.push({
         name: "Home",
       });
     },
     // 编辑/完成
-    handleEdit() {
+    handleEdit () {
       this.isEdit = !this.isEdit;
     },
     // 修改商品数量
-    changeNum(value, lis) {
+    changeNum (value, lis) {
       // 修改后的数量以及当前购物车商品的id，传递给后端
       http
         .$axios({
@@ -234,10 +179,10 @@ export default {
             id: lis.id,
           },
         })
-        .then((res) => {});
+        .then((res) => { });
     },
     // 结算
-    goOrder() {
+    goOrder () {
       if (!this.selectList.length) {
         return Toast("至少选择一件商品");
       }
@@ -290,25 +235,31 @@ export default {
     height: 1.1733rem;
     color: #ffffff;
     background-color: #3b8c2f;
+
     & i {
       font-size: 0.64rem;
       padding: 0 0.2133rem;
     }
+
     & span {
       font-size: 0.4267rem;
       line-height: 1.1733rem;
     }
+
     & div:nth-child(3) span {
       font-size: 0.3733rem;
       padding-right: 0.2667rem;
     }
   }
+
   & section {
     background-color: #f5f5f5;
+
     & .cart-goods-title {
       display: flex;
       padding: 0.5333rem 0.2667rem;
       border-bottom: 0.0267rem solid #e8e8e8;
+
       & span {
         color: #333333;
         font-size: 0.4267rem;
@@ -316,6 +267,7 @@ export default {
         font-weight: 700;
       }
     }
+
     & ul {
       & li {
         display: flex;
@@ -323,21 +275,26 @@ export default {
         background-color: #ffffff;
         margin-bottom: 0.0533rem;
         padding: 0 0.2667rem;
+
         & h2 {
           padding: 0.2667rem;
+
           & img {
             border: 0.0267rem solid #eeeeee;
             vertical-align: middle;
           }
         }
+
         & .cart-goods-desc {
           width: 100%;
+
           & .cart-goods-desc_title {
             display: flex;
             justify-content: space-between;
             height: 0.8533rem;
             color: #222222;
             font-size: 0.32rem;
+
             & span {
               overflow: hidden;
               display: -webkit-box;
@@ -345,27 +302,32 @@ export default {
               -webkit-line-clamp: 2;
             }
           }
+
           & .cart-goods-desc_price {
             color: #b0352f;
             font-size: 0.3733rem;
           }
+
           & ::v-deep .van-stepper {
             text-align: right;
           }
         }
       }
     }
+
     & .cart-empty {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-top: 1.6rem;
+
       & h3 {
         color: #666666;
         font-size: 0.3733rem;
         font-weight: 400;
         margin-top: 0.5333rem;
       }
+
       & div {
         color: #666666;
         font-size: 0.32rem;
@@ -376,30 +338,36 @@ export default {
         border-radius: 0.16rem;
       }
     }
+
     & .cart-like-mt {
       margin-top: 1.6rem;
     }
   }
+
   & footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 1.2rem;
     box-shadow: 0 0 0.08rem #d7d7d7;
+
     & .cart-checked {
       width: 1.0667rem;
       display: flex;
       justify-content: center;
     }
+
     & .total-goods {
       flex: 1;
       font-size: 0.32rem;
       line-height: 0.48rem;
+
       & .total-goods-subtotal {
         color: #b0352f;
         font-size: 0.3733rem;
       }
     }
+
     & .cart-settlement {
       width: 3.2rem;
       height: 1.2rem;

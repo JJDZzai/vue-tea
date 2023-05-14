@@ -15,7 +15,7 @@
 <script>
 export default {
   name: "Header",
-  data() {
+  data () {
     return {};
   },
 };
@@ -30,17 +30,19 @@ export default {
   height: 1.1733rem;
   color: #ffffff;
   background-color: #3b8c2f;
+
   & .icon-fanhui {
     font-size: 0.5333rem;
     padding-left: 0.2133rem;
   }
+
   & .icon-shouye {
     font-size: 0.6933rem;
     padding-right: 0.2133rem;
   }
+
   & span {
     font-size: 16px;
     line-height: 1.1733rem;
   }
-}
-</style>
+}</style>

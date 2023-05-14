@@ -15,7 +15,7 @@ export default {
     actions: {},
     mutations: {
         // 设置用户信息
-        [USER_LOGIN](state, user) {
+        [USER_LOGIN] (state, user) {
             // 成功登录
             state.loginStatus = true
             // token值记录
@@ -27,7 +27,7 @@ export default {
         },
 
         // 读取用户信息
-        [USER_INFO](state) {
+        [USER_INFO] (state) {
             let userInfo = JSON.parse(localStorage.getItem('userInfo'))
             if (userInfo) {
                 state.loginStatus = true
@@ -37,7 +37,7 @@ export default {
         },
 
         // 退出登录
-        [LOGINOUT](state) {
+        [LOGINOUT] (state) {
             state.loginStatus = false
             state.token = null
             state.userInfo = {}

@@ -7,13 +7,12 @@
 <script>
 export default {
   name: "Retrieve",
-  data() {
+  data () {
     return {};
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.retrieve {
-}
+.retrieve {}
 </style>

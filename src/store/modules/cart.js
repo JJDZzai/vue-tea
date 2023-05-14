@@ -10,10 +10,10 @@ export default {
         selectList: JSON.parse(window.localStorage.getItem('selectList')) || [] // 选中的数据
     },
     getters: {
-        isCheckedAll(state) {
+        isCheckedAll (state) {
             return state.list.length == state.selectList.length
         },
-        total(state) {
+        total (state) {
             let total = {
                 num: 0,
                 price: 0
@@ -28,10 +28,10 @@ export default {
         }
     },
     actions: {
-        checkAllFn({ commit, getters }) {
+        checkAllFn ({ commit, getters }) {
             getters.isCheckedAll ? commit('CHECKNO') : commit('CHECKALL')
         },
-        deleteGoods({ state, commit }, id) {
+        deleteGoods ({ state, commit }, id) {
             // 如果没有被选中给出提示信息
             if (state.selectList.length == 0) {
                 Toast('请选择要删除的商品');
@@ -68,7 +68,7 @@ export default {
     },
     mutations: {
         // 购物车数据
-        [CARTLIST](state, cartArr) {
+        [CARTLIST] (state, cartArr) {
             state.list = cartArr
             state.selectList = state.list.map(v => {
                 return v.id
@@ -77,21 +77,21 @@ export default {
             window.localStorage.setItem('selectList', JSON.stringify(state.selectList))
         },
         // 全选
-        [CHECKALL](state) {
+        [CHECKALL] (state) {
             state.selectList = state.list.map(v => {
                 v.checked = true
                 return v.id
             });
         },
         // 全不选
-        [CHECKNO](state) {
+        [CHECKNO] (state) {
             state.list.forEach(v => {
                 v.checked = false
             });
             state.selectList = []
         },
         // 单选
-        [SINGLECHECK](state, index) {
+        [SINGLECHECK] (state, index) {
             let id = state.list[index].id
             let selectId = state.selectList.indexOf(id)
 
@@ -103,7 +103,7 @@ export default {
             state.selectList.push(id)
         },
         // 删除
-        DELGOODS(state) {
+        DELGOODS (state) {
             state.list = state.selectList.filter(v => {
                 return state.selectList.indexOf(v.id) == -1
             })

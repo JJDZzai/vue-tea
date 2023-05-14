@@ -7,25 +7,18 @@
     </header>
     <section>
       <ul v-if="list.length">
-        <li
-          v-for="(lis,index) in list"
-          :key="index"
-          @click="goList(lis)"
-        >
+        <li v-for="(lis, index) in list" :key="index" @click="goList(lis)">
           <div class="address-detail-info">
             <div>
-              <span>{{lis.name}}</span>
-              &nbsp; &nbsp;<span>{{lis.tel}}</span>
+              <span>{{ lis.name }}</span>
+              &nbsp; &nbsp;<span>{{ lis.tel }}</span>
             </div>
             <div>
-              <span
-                class="active"
-                v-if="lis.isDefault == 1"
-              >[默认] </span>
-              <span>{{lis.province}} </span>
-              <span>{{lis.city}} </span>
-              <span>{{lis.county}} </span>
-              <span>{{lis.addressDetail}} </span>
+              <span class="active" v-if="lis.isDefault == 1">[默认] </span>
+              <span>{{ lis.province }} </span>
+              <span>{{ lis.city }} </span>
+              <span>{{ lis.county }} </span>
+              <span>{{ lis.addressDetail }} </span>
             </div>
           </div>
           <div class="arrow">
@@ -33,17 +26,11 @@
           </div>
         </li>
       </ul>
-      <div
-        class="empty-address"
-        v-else
-      >
+      <div class="empty-address" v-else>
         <i class="iconfont icon-dizhi1"></i>
         <p>无限的思念与牵挂，不如留个地址好相见~</p>
       </div>
-      <div
-        class="address-add"
-        @click="goList('add')"
-      >添加地址</div>
+      <div class="address-add" @click="goList('add')">添加地址</div>
     </section>
     <footer>
       <Tabbar />
@@ -65,12 +52,12 @@ export default {
     Header,
     Tabbar,
   },
-  data() {
+  data () {
     return {
       addressStatus: false,
     };
   },
-  created() {
+  created () {
     this.getData();
     if (this.$route.query.type == "select") {
       this.addressStatus = true;
@@ -81,7 +68,7 @@ export default {
   },
   methods: {
     ...mapMutations("address", ["INITDATA"]),
-    getData() {
+    getData () {
       http
         .$axios({
           url: "/api/selectedAddress",
@@ -94,7 +81,7 @@ export default {
           this.INITDATA(res.data);
         });
     },
-    goList(option) {
+    goList (option) {
       if (this.addressStatus) {
         this.$bus.$emit("selectAddress", JSON.stringify(option));
         this.$router.back();
@@ -118,8 +105,10 @@ export default {
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
+
     & ul {
       width: 100%;
+
       & li {
         display: flex;
         align-items: center;
@@ -129,14 +118,17 @@ export default {
         margin-top: 0.2667rem;
         padding: 0.4rem;
         font-size: 0.3733rem;
+
         & .address-detail-info {
           & div:first-child {
             margin-bottom: 0.2667rem;
           }
+
           & .active {
             color: #b0352f;
           }
         }
+
         & .arrow {
           & i {
             color: #9e9e9e;
@@ -146,6 +138,7 @@ export default {
         }
       }
     }
+
     & .address-add {
       width: 3.2rem;
       height: 1.0667rem;
@@ -157,15 +150,18 @@ export default {
       border-radius: 0.0533rem;
       margin-top: 1.0667rem;
     }
+
     & .empty-address {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-top: 0.5333rem;
+
       & i {
         color: #dddddd;
         font-size: 2.1333rem;
       }
+
       & p {
         color: #dddddd;
         font-size: 0.3733rem;

@@ -9,7 +9,7 @@ export default {
     getters: {},
     actions: {},
     mutations: {
-        [INITORDER](state, orderId) {
+        [INITORDER] (state, orderId) {
             state.list = orderId;
 
             //存储订单号

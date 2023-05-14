@@ -6,22 +6,11 @@
       </Header>
     </header>
     <section>
-      <form
-        action=""
-        onsubmit="return false"
-      >
+      <form action="" onsubmit="return false">
         <div>
-          <input
-            type="password"
-            placeholder="请输入新的密码"
-            maxlength="11"
-            v-model="account.userPwd"
-          >
+          <input type="password" placeholder="请输入新的密码" maxlength="11" v-model="account.userPwd">
         </div>
-        <button
-          class="retrieve-next-sign"
-          @click="handleConfirmPassword"
-        >确认密码</button>
+        <button class="retrieve-next-sign" @click="handleConfirmPassword">确认密码</button>
       </form>
     </section>
     <footer>
@@ -45,7 +34,7 @@ export default {
     Header,
     Tabbar,
   },
-  data() {
+  data () {
     return {
       account: {
         userPwd: "",
@@ -59,11 +48,9 @@ export default {
     };
   },
   methods: {
-    handleConfirmPassword() {
+    handleConfirmPassword () {
       // 如果没有输入账号密码在登录时给出提示
-      if (!this.account.userPwd) {
-        return Toast("请输入您要修改的新密码");
-      }
+      if (!this.validate("userPwd")) return;
       if (this.account.userPwd) {
         http
           .$axios({
@@ -75,8 +62,6 @@ export default {
             },
           })
           .then((res) => {
-            if (!this.validate("userPwd")) return;
-
             if (res.success) {
               Toast(res.msg);
             }
@@ -86,7 +71,7 @@ export default {
           });
       }
     },
-    validate(key) {
+    validate (key) {
       let val = true;
       if (!this.rules[key].rule.test(this.account[key])) {
         Toast(this.rules[key].msg);
@@ -106,11 +91,14 @@ export default {
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
+
     & form {
       margin-top: 0.6667rem;
+
       & div {
         height: 1.1733rem;
         margin: 0.4rem 0;
+
         & input {
           width: 100%;
           background-color: #ffffff;
@@ -121,6 +109,7 @@ export default {
           box-sizing: border-box;
         }
       }
+
       & .retrieve-next-sign {
         width: 8.9333rem;
         height: 1.1733rem;

@@ -12,14 +12,11 @@
 
 <script>
 export default {
-  created() {
+  created () {
     this.$store.commit("user/USER_INFO");
   },
-  methods: {
-    
-  },
+  methods: {},
 };
 </script>
 
-<style>
-</style>
+<style></style>

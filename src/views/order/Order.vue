@@ -5,26 +5,20 @@
       <div>
         <div class="order-info">
           <h3>收货信息: </h3>
-          <div
-            class="order-info-detail"
-            @click="goAddress"
-          >
+          <div class="order-info-detail" @click="goAddress">
             <div v-if="this.address">
               <div>
-                <span>{{address.name}}</span>&nbsp;&nbsp;
-                <span>{{address.tel}}</span>
+                <span>{{ address.name }}</span>&nbsp;&nbsp;
+                <span>{{ address.tel }}</span>
               </div>
               <div>
-                <span>{{address.province}}</span>&nbsp;&nbsp;
-                <span>{{address.city}}</span>&nbsp;&nbsp;
-                <span>{{address.county}}</span>&nbsp;&nbsp;
-                <span>{{address.addressDetail}}</span>
+                <span>{{ address.province }}</span>&nbsp;&nbsp;
+                <span>{{ address.city }}</span>&nbsp;&nbsp;
+                <span>{{ address.county }}</span>&nbsp;&nbsp;
+                <span>{{ address.addressDetail }}</span>
               </div>
             </div>
-            <div
-              class="order-info-detail_empty"
-              v-else
-            >
+            <div class="order-info-detail_empty" v-else>
               <span>您的收货地址为空，点击添加收货地址</span>
             </div>
             <div>
@@ -34,29 +28,22 @@
         </div>
         <div class="order-payment">
           <div class="order-payment-method">支付方式： <span>选择在线支付</span></div>
-          <van-radio-group
-            v-model="paymentMethod"
-            direction="horizontal"
-          >
+          <van-radio-group v-model="paymentMethod" direction="horizontal">
             <van-radio name="zfb">支付宝</van-radio>
             <van-radio name="wx">微信支付</van-radio>
           </van-radio-group>
         </div>
         <div class="order-goods">
           <ul>
-            <li
-              v-for="(good,index) in goodsList"
-              :key="index"
-              @click="goDetail(good.id)"
-            >
+            <li v-for="(good, index) in goodsList" :key="index" @click="goDetail(good.id)">
               <div>
                 <img :src="good.goods_imgUrl">
               </div>
               <div class="order-goods-content">
-                <h3>{{good.goods_name}}</h3>
+                <h3>{{ good.goods_name }}</h3>
                 <div class="order-goods-content_subtotal">
-                  <span>￥{{good.goods_price}}</span>
-                  <span>x{{good.goods_num}}</span>
+                  <span>￥{{ good.goods_price }}</span>
+                  <span>x{{ good.goods_num }}</span>
                 </div>
               </div>
             </li>
@@ -66,13 +53,10 @@
     </section>
     <footer>
       <div class="order-total">
-        共<span>{{total.num}}</span>件，
-        总金额: <span>￥{{total.price}}</span>
+        共<span>{{ total.num }}</span>件，
+        总金额: <span>￥{{ total.price }}</span>
       </div>
-      <div
-        class="order-submit"
-        @click="goPayment"
-      >提交订单</div>
+      <div class="order-submit" @click="goPayment">提交订单</div>
     </footer>
   </div>
 </template>
@@ -95,7 +79,7 @@ import qs from "qs";
 export default {
   name: "Order",
   components: { Header },
-  data() {
+  data () {
     return {
       paymentMethod: "zfb",
       address: [],
@@ -106,7 +90,7 @@ export default {
       },
     };
   },
-  mounted() {
+  mounted () {
     new BetterScroll(this.$refs.main, {
       movable: true,
       zoom: true,
@@ -114,12 +98,12 @@ export default {
       bounce: true,
     });
   },
-  created() {
+  created () {
     this.getAddress();
     this.getOrder();
     this.goodsList = JSON.parse(this.$route.query.goodsList);
   },
-  activated() {
+  activated () {
     this.$bus.$on("selectAddress", (data) => {
       this.address = JSON.parse(data);
     });
@@ -136,14 +120,14 @@ export default {
       INITDATA: "address/INITDATA",
       INITORDER: "order/INITORDER",
     }),
-    goDetail(id) {
+    goDetail (id) {
       this.$router.push({
         name: "Detail",
         query: { id },
       });
     },
     // 查询地址
-    getAddress() {
+    getAddress () {
       http
         .$axios({
           url: "/api/selectedAddress",
@@ -163,7 +147,7 @@ export default {
         });
     },
     // 查询订单号
-    getOrder() {
+    getOrder () {
       http
         .$axios({
           url: "/api/selectOrder",
@@ -184,7 +168,7 @@ export default {
         });
     },
     // 选择收货地址
-    goAddress() {
+    goAddress () {
       this.$router.push({
         name: "addressIndex",
         query: {
@@ -193,7 +177,7 @@ export default {
       });
     },
     // 提交订单
-    goPayment() {
+    goPayment () {
       // 判断是否有默认地址
       if (!this.address) return Toast("请填写收货地址");
 
@@ -254,62 +238,75 @@ export default {
 .order {
   & section {
     background-color: #f5f5f5;
+
     & .order-info {
       font-size: 0.4267rem;
+
       & h3 {
         padding: 0.2667rem 0.4rem;
         font-size: 0.3733rem;
         font-weight: 400;
       }
+
       & .order-info-detail {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0.2667rem 0.4rem;
         background-color: #ffffff;
+
         & .order-info-detail_empty {
           color: #b8b8b8;
           font-size: 0.3733rem;
           margin-left: 1.0667rem;
         }
+
         & i {
           color: #dddddd;
           font-size: 0.5333rem;
         }
       }
     }
+
     & .order-payment {
       font-size: 0.3733rem;
       background-color: #ffffff;
       margin-top: 0.2667rem;
       padding: 0.2667rem 0.4rem;
+
       & .order-payment-method {
         margin-bottom: 0.2667rem;
+
         & span {
           color: #3b8c2f;
         }
       }
     }
+
     & .order-goods {
       font-size: 0.3733rem;
       background-color: #ffffff;
       margin-top: 0.2667rem;
       padding: 0.2667rem 0.4rem;
+
       & li {
         display: flex;
         width: 100%;
         margin: 0.32rem 0;
+
         & img {
           width: 1.9733rem;
           height: 1.9733rem;
           border: 0.0267rem solid #eeeeee;
         }
+
         & .order-goods-content {
           flex: 1;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
           padding-left: 0.4rem;
+
           & h3 {
             width: 5.3333rem;
             color: #222222;
@@ -320,10 +317,12 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
           }
+
           & .order-goods-content_subtotal {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             & span:first-child {
               color: #b0352f;
             }
@@ -332,6 +331,7 @@ export default {
       }
     }
   }
+
   & footer {
     display: flex;
     align-items: center;
@@ -339,20 +339,24 @@ export default {
     width: 100%;
     height: 1.2rem;
     border-top: 0.0267rem solid #e7e7e7;
+
     & .order-total {
       font-size: 0.32rem;
       margin-left: 0.4rem;
       line-height: 1.2rem;
+
       & span:first-child {
         color: #b0352f;
         font-size: 0.3733rem;
         margin: 0 0.08rem;
       }
+
       & span:last-child {
         color: #b0352f;
         font-size: 0.48rem;
       }
     }
+
     & .order-submit {
       width: 3.2rem;
       height: 1.2rem;

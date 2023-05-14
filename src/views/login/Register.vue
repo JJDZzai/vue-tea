@@ -6,43 +6,19 @@
       </Header>
     </header>
     <section>
-      <form
-        action=""
-        onsubmit="return false"
-      >
+      <form action="" onsubmit="return false">
         <div class="register-tel">
-          <input
-            type="tel"
-            placeholder="请输入手机号"
-            maxlength="11"
-            v-model="account.userTel"
-          >
+          <input type="tel" placeholder="请输入手机号" maxlength="11" v-model="account.userTel">
         </div>
         <div class="register-info">
-          <input
-            type="tel"
-            placeholder="请输入短信验证码"
-            maxlength="6"
-            v-model="account.infoCode"
-          >
-          <button
-            :disabled="disabled"
-            @click="getSmsCode"
-            :style="{backgroundColor:btnBgColor,color:btnColor}"
-          >{{codeMsg}}</button>
+          <input type="tel" placeholder="请输入短信验证码" maxlength="6" v-model="account.infoCode">
+          <button :disabled="disabled" @click="getSmsCode" :style="{ backgroundColor: btnBgColor, color: btnColor }">{{
+            codeMsg }}</button>
         </div>
         <div class="register-tel">
-          <input
-            type="password"
-            placeholder="请输入设置密码"
-            maxlength="16"
-            v-model="account.userPwd"
-          >
+          <input type="password" placeholder="请输入设置密码" maxlength="16" v-model="account.userPwd">
         </div>
-        <button
-          class="register-sign"
-          @click="handleRegistereAccount"
-        >注 册</button>
+        <button class="register-sign" @click="handleRegistereAccount">注 册</button>
       </form>
     </section>
     <footer>
@@ -66,7 +42,7 @@ export default {
     Header,
     Tabbar,
   },
-  data() {
+  data () {
     return {
       code: "",
       disabled: false,
@@ -92,7 +68,7 @@ export default {
     };
   },
   methods: {
-    getSmsCode() {
+    getSmsCode () {
       // 1. 验证
       if (!this.validate("userTel")) return;
 
@@ -133,7 +109,7 @@ export default {
           }
         });
     },
-    validate(key) {
+    validate (key) {
       let val = true;
       if (!this.rules[key].rule.test(this.account[key])) {
         Toast(this.rules[key].msg);
@@ -142,15 +118,23 @@ export default {
       }
       return val;
     },
-    handleRegistereAccount() {
+    handleRegistereAccount () {
       // 如果没有输入账号密码在登录时给出提示
-      if (
-        !this.account.userTel &&
-        !this.account.infoCode &&
-        !this.account.userPwd
-      ) {
-        return Toast("请输入正确的手机号");
+      // if (
+      //   !this.account.userTel &&
+      //   !this.account.infoCode &&
+      //   !this.account.userPwd
+      // ) {
+      //   return Toast("请输入正确的手机号");
+      // }
+      if (!this.validate("userTel")) return;
+      if (this.account.userTel && !this.account.infoCode) {
+        return Toast('请先获取验证码')
       }
+      if (!this.code == this.account.infoCode) {
+        return Toast("验证码不正确");
+      }
+
       if (this.code == this.account.infoCode) {
         http
           .$axios({
@@ -175,9 +159,6 @@ export default {
               name: "userLogin",
             });
           });
-      } else {
-        Toast("验证码不正确");
-        return;
       }
     },
   },
@@ -191,11 +172,14 @@ export default {
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
+
     & form {
       margin-top: 0.6667rem;
+
       & div {
         height: 1.1733rem;
         margin: 0.4rem 0;
+
         & input {
           background-color: #ffffff;
           line-height: 44px;
@@ -205,17 +189,21 @@ export default {
           box-sizing: border-box;
         }
       }
+
       & .register-tel input {
         width: 100%;
       }
+
       & .register-info {
         display: flex;
+
         & input {
           width: 100%;
           flex: 1;
           border-right: 0;
           border-top-right-radius: 0;
         }
+
         & button {
           color: #ffffff;
           background-color: #3b8c2f;
@@ -224,6 +212,7 @@ export default {
           border-radius: 0.1067rem;
         }
       }
+
       & .register-sign {
         width: 8.9333rem;
         height: 1.1733rem;

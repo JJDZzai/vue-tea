@@ -6,7 +6,7 @@ export default {
         list: []
     },
     getters: {
-        defaultAddress(state) {
+        defaultAddress (state) {
             return state.list.filter(v => {
                 return v.isDefault == 1
             })
@@ -14,7 +14,7 @@ export default {
     },
     actions: {},
     mutations: {
-        [INITDATA](state, arr) {
+        [INITDATA] (state, arr) {
             state.list = arr
         }
     }
